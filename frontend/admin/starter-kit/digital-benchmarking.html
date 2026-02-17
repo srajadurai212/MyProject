@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../assets/images/fuso_logo.png" type="image/x-icon" />
+  <link rel="shortcut icon" href="../assets/images/fuso_logo.png" type="image/x-icon" />
+  <meta name="description" content="Digital benchmarking view" />
+  <title>Digital Benchmarking - FUSO</title>
+  <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.css" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/icofont.css" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/themify.css" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/flag-icon.css" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/feather-icon.css" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/slick.css" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/scrollbar.css" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/flatpickr/flatpickr.min.css" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
+  <link id="color" rel="stylesheet" href="../assets/css/color-1.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="../assets/css/responsive.css" />
+
+  <!-- Include marked.js for Markdown rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<style>
+  .poctitle {
+    margin-bottom: 1rem;
+  }
+
+  #chart {
+    height: 360px;
+  }
+
+  /* .loading {
+    display: none;
+  } */
+
+  /* Constrain FUSO logo sizes site-wide for headers/sidebars */
+  .header-logo-wrapper .logo-wrapper img {
+    max-height: 36px;
+    width: auto;
+  }
+
+  .page-header .header-logo-wrapper .logo-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .sidebar-wrapper .logo-wrapper img {
+    max-height: 40px;
+    width: auto;
+  }
+
+  /* Header logo size fix */
+  .header-logo-wrapper .logo-wrapper img {
+    max-height: 28px;
+    width: auto;
+  }
+
+  .sidebar-logo-title {
+    display: inline-block !important;
+    font-size: 30px;
+    font-weight: 700;
+    color: #f3283f;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  footer.footer {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    margin-left: -50vw;
+    box-sizing: border-box;
+    z-index: 2;
+  }
+
+  footer.footer .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .page-body {
+    overflow: visible !important;
+  }
+
+  .app-logo {
+    max-height: 28px;
+    width: auto;
+  }
+
+  /* Office (right) logo */
+  .office-logo {
+    max-height: 32px;
+    width: auto;
+  }
+
+  /* Header alignment fix */
+  .page-header .header-wrapper {
+    min-height: 60px;
+  }
+
+  .image-preview {
+    max-width: 100%;
+    max-height: 300px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+
+  .image-container {
+    text-align: center;
+    padding: 10px;
+  }
+
+  .loading-spinner {
+    display: none;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .result-section {
+    display: none;
+    margin-top: 20px;
+  }
+
+  .comparison-table {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .comparison-table th {
+    background-color: #dfdfdf;
+    font-weight: 600;
+  }
+
+  .btn-compare {
+    margin-top: 20px;
+  }
+
+  /* Page section visibility */
+  .page-section {
+    display: block;
+  }
+
+  .page-section.hidden {
+    display: none !important;
+  }
+
+  /* Output sections */
+  .inspection-output,
+  .comparison-output {
+    margin-top: 30px;
+  }
+
+  .inspection-output img,
+  .comparison-output img {
+    max-width: 320px;
+    border-radius: 8px;
+    margin-right: 16px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+  }
+
+  .image-block {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .image-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .image-group h4 {
+    margin: 6px 0 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .image-group img {
+    max-width: 320px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+
+  .markdown {
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+
+  .markdown h1,
+  .markdown h2,
+  .markdown h3 {
+    color: #87236c;
+    margin-top: 20px;
+  }
+
+  .markdown ul {
+    padding-left: 20px;
+  }
+
+  .markdown code {
+    background: #f3e6ef;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  .markdown pre {
+    background: #f8eef4;
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+
+  /* Loading overlay for new sections */
+  .loading-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 2px solid #e4b298;
+    border-radius: 10px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    min-width: 250px;
+  }
+
+  .loading-overlay p {
+    margin-top: 16px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #f3283f;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .heading-red {
+    color: rgb(243, 54, 54);
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .custom-header * {
+    color: #fff !important;
+  }
+
+  /* Custom alert-info styling */
+  .alert.alert-info {
+    background-color: #ffffff !important;
+    color: #575656 !important;
+    border-color: #e4b298 !important;
+  }
+
+  .sidebar-logout {
+    border-top: 1px solid #e9ecef;
+    padding-top: 15px;
+    margin-top: 20px;
+  }
+
+  .sidebar-logout .sidebar-link {
+    justify-content: flex-start !important;
+    padding: 12px 20px !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar-logout .sidebar-link:hover {
+    background-color: #cccccc !important;
+    color: #f3283f !important;
+  }
+
+  .sidebar-logout i {
+    color: #ffffff;
+    margin-right: 10px;
+  }
+
+  .sidebar-submenu a.active {
+    color: #7e7e7e;
+    font-weight: 600;
+  }
+
+  .sidebar-list.active>.sidebar-title {
+    background-color: #7e7e7e;
+    color: #fff;
+  }
+
+  .sidebar-list.active svg {
+    stroke: #fff;
+    fill: #fff;
+  }
+
+  /* 🔥 Kill sidebar arrow completely for Home */
+  .sidebar-list.no-arrow>a {
+    background: none !important;
+    background-image: none !important;
+  }
+
+  /* Kill pseudo elements */
+  .sidebar-list.no-arrow>a::after,
+  .sidebar-list.no-arrow>a::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* Kill icon arrows if present */
+  .sidebar-list.no-arrow i,
+  .sidebar-list.no-arrow .according-menu,
+  .sidebar-list.no-arrow .sidebar-icon,
+  .sidebar-list.no-arrow .fa-angle-right,
+  .sidebar-list.no-arrow .fa-chevron-right {
+    display: none !important;
+  }
+
+  .table-scroll-wrapper {
+    overflow-x: auto;
+    /* horizontal scroll */
+    overflow-y: hidden;
+    /* do not scroll vertically */
+  }
+
+  .table-scrollable {
+    border-collapse: separate !important;
+    /* keep last row border visible */
+    border-spacing: 0;
+  }
+
+  .table-scrollable td,
+  .table-scrollable th {
+    border: 1px solid #dee2e6;
+    /* ensure all borders visible */
+  }
+</style>
+
+<body>
+  <div class="page-wrapper compact-wrapper" id="pageWrapper">
+    <div class="page-header">
+      <div class="header-wrapper row m-0 align-items-center">
+
+        <!-- LEFT: FUSO logo -->
+        <div class="header-logo-wrapper col-auto p-0 d-flex align-items-center">
+          <div class="logo-wrapper">
+            <a href="index.html">
+              <img class="img-fluid for-light" src="../assets/images/fuso_logo.png" alt="FUSO" />
+            </a>
+          </div>
+          <div class="toggle-sidebar ms-2">
+            <i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i>
+          </div>
+        </div>
+
+        <!-- CENTER: Page title -->
+        <div class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0">
+          <div class="d-flex align-items-center">
+            <h3 class="f-w-600 mb-0">Digital Benchmarking</h3>
+          </div>
+        </div>
+
+        <!-- RIGHT: Office logo -->
+        <div class="col-auto ms-auto d-flex align-items-center">
+          <img src="../assets/images/intelizign_logo.png" alt="Office Logo" class="img-fluid"
+            style="height: 42px; width: auto;">
+        </div>
+
+      </div>
+    </div>
+    <div class="page-body-wrapper horizontal-menu">
+      <!-- Page Sidebar Start-->
+      <div class="sidebar-wrapper" data-layout="stroke-svg">
+        <div>
+          <div class="logo-wrapper d-flex align-items-center">
+            <a href="index.html" class="d-flex align-items-center">
+              <!-- <img class="img-fluid" src="../assets/images/fuso_logo.png" alt="FUSO"> -->
+              <span class="sidebar-logo-title">FUSO</span>
+            </a>
+
+            <div class="back-btn ms-auto">
+              <i class="fa fa-angle-left"></i>
+            </div>
+
+            <div class="toggle-sidebar ms-2">
+              <i class="status_toggle middle sidebar-toggle" data-feather="grid"></i>
+            </div>
+          </div>
+          <div class="logo-icon-wrapper"><a href="index.html"><img class="img-fluid"
+                src="../assets/images/fuso_logo.png" alt="FUSO icon" /></a></div>
+          <nav class="sidebar-main">
+            <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
+            <div id="sidebar-menu">
+              <ul class="sidebar-links" id="simple-bar">
+                <li class="back-btn">
+                  <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
+                      aria-hidden="true"></i></div>
+                </li>
+                <!-- <li class="pin-title sidebar-main-title">
+                  <div>
+                    <h6>Pinned</h6>
+                  </div>
+                </li> -->
+                <!-- POCs menu -->
+                <li class="sidebar-main-title">
+                  <!-- <div>
+                    <h6>POCs</h6>
+                  </div> -->
+                </li>
+                <li class="sidebar-list no-arrow">
+                  <a class="sidebar-link sidebar-title" href="../template/index.html">
+                    <svg class="stroke-icon">
+                      <use href="../assets/svg/icon-sprite.svg#stroke-home"></use>
+                    </svg>
+                    <!-- <svg class="fill-icon">
+                    <use href="../assets/svg/icon-sprite.svg#fill-home"></use>
+                  </svg> -->
+                    <span>Home</span>
+                  </a>
+                </li>
+                <li class="sidebar-list"><i class="fa fa-area-chart"></i><a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                      <use href="../assets/svg/icon-sprite.svg#stroke-charts"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="../assets/svg/icon-sprite.svg#fill-charts"></use>
+                    </svg><span>Flat Steel Prediction</span></a>
+                  <ul class="sidebar-submenu">
+                    <li><a href="flat-steel-overview.html">Overview</a></li>
+                    <li><a href="steel-price.html">Prediction</a></li>
+                    <li><a href="test-data.html">Test data</a></li>
+                    <li><a href="prediction-comparison.html">Prediction comparison</a></li>
+                    <li><a href="historical.html">Historical data</a></li>
+                  </ul>
+                </li>
+                <li class="sidebar-list">
+                  <a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                      <use href="../assets/svg/icon-sprite.svg#stroke-widget"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="../assets/svg/icon-sprite.svg#fill-widget"></use>
+                    </svg>
+                    <span>Digital Costing</span>
+                  </a>
+                  <ul class="sidebar-submenu">
+                    <li><a href="digital-cost-overview.html">Overview</a></li>
+                    <li>
+                      <a href="../starter-kit/cost-calculation.html">Data Insights</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="sidebar-list">
+                  <a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                      <use href="../assets/svg/icon-sprite.svg#stroke-project"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="../assets/svg/icon-sprite.svg#fill-project"></use>
+                    </svg>
+                    <span>Digital Benchmarking</span>
+                  </a>
+                  <ul class="sidebar-submenu">
+                    <li><a href="../starter-kit/digital_bench_overview.html">Overview</a></li>
+                    <li><a href="#" onclick="showPage('inspection'); return false;">Inspection</a></li>
+                    <li><a href="#" onclick="showPage('comparison'); return false;">Comparison</a></li>
+                  </ul>
+                </li>
+                <li class="sidebar-list">
+                  <a class="sidebar-link sidebar-title" href="#">
+                    <svg class="stroke-icon">
+                      <use href="../assets/svg/icon-sprite.svg#stroke-layout"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="../assets/svg/icon-sprite.svg#fill-layout"></use>
+                    </svg>
+                    <span>BCC Supplier Finder</span>
+                  </a>
+                  <ul class="sidebar-submenu">
+                    <li><a href="supplier_overview.html">Overview</a></li>
+                    <li>
+                      <a href="../starter-kit/supplier_identification.html">BCC Supplier Insights</a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="sidebar-logout sidebar-list">
+                  <a class="sidebar-link sidebar-title" href="#" id="sidebarLogoutBtn">
+                    <i class="fa fa-sign-out" data-feather="log-out"></i>
+                    <svg class="stroke-icon">
+                      <use href="../assets/svg/icon-sprite.svg#stroke-logout"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="../assets/svg/icon-sprite.svg#fill-logout"></use>
+                    </svg>
+                    <span>Logout</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
+          </nav>
+        </div>
+      </div>
+      <!-- Page Sidebar Ends-->
+
+      <div class="page-body">
+        <div class="container-fluid">
+
+          <!-- PAGE TITLE / BREADCRUMBS -->
+          <div class="row mb-3">
+            <div class="col-12">
+              <div class="page-title">
+                <div class="row align-items-center">
+
+                  <!-- LEFT : Breadcrumb -->
+                  <div class="col-sm-6 text-start">
+                    <ol class="breadcrumb mb-0 justify-content-start align-items-center">
+                      <li class="breadcrumb-item">
+                        <a href="../template/index.html" class="d-flex align-items-center gap-1">
+                          <i class="fa fa-home" style="font-size:12px;"></i>
+                          Home
+                        </a>
+                      </li>
+                      <li class="breadcrumb-item active">Inspection & Comparison</li>
+                    </ol>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- ================= INSPECTION SECTION ================= -->
+          <section id="inspection-section" class="page-section">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header custom-header" style="background-color: #f3283f;">
+                    <h5><strong>Inspection Report</strong></h5>
+                  </div>
+                  <div class="card-body">
+
+                    <div class="row g-3">
+
+                      <!-- Upload Object Images -->
+                      <div class="col-md-4">
+                        <div class="card h-100">
+                          <div class="card-header" style="background-color: #f8f9fa;">
+                            <h6 class="mb-0">1. Upload Object Images</h6>
+                          </div>
+                          <div class="card-body">
+                            <input type="file" id="insp-images" class="form-control" multiple accept="image/*">
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Object Material -->
+                      <div class="col-md-4">
+                        <div class="card h-100">
+                          <div class="card-header" style="background-color: #f8f9fa;">
+                            <h6 class="mb-0">2. Object Material</h6>
+                          </div>
+                          <div class="card-body">
+                            <select id="insp-material" class="form-control"></select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Scale Reference -->
+                      <div class="col-md-4">
+                        <div class="card h-100">
+                          <div class="card-header" style="background-color: #f8f9fa;">
+                            <h6 class="mb-0">3. Scale Reference</h6>
+                          </div>
+                          <div class="card-body">
+                            <div class="row g-2">
+                              <div class="col-12 mb-2">
+                                <select id="insp-scale-type" class="form-control"></select>
+                              </div>
+                              <div class="col-12 mb-2">
+                                <input id="insp-scale-text" class="form-control"
+                                  placeholder="e.g. Inner hole diameter = 5 cm" />
+                              </div>
+                              <div class="col-12 mb-2">
+                                <input id="insp-distance" class="form-control" placeholder="Camera distance (m)" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <!-- Generate Button -->
+                    <div class="text-center mb-4">
+                      <button class="btn btn-primary btn-lg" onclick="runInspection()">
+                        <strong>Generate Inspection Report</strong>
+                      </button>
+                    </div>
+
+                    <!-- Inspection Output -->
+                    <div id="insp-output" class="inspection-output mt-4"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= COMPARISON SECTION ================= -->
+          <section id="comparison-section" class="page-section hidden">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header custom-header" style="background-color: #f3283f;">
+                    <h5><strong>Comparison Report</strong></h5>
+                  </div>
+                  <div class="card-body">
+
+                    <div class="row">
+                      <!-- Reference Object -->
+                      <div class="col-md-6">
+                        <div class="card">
+                          <div class="card-header" style="background-color: #f8f9fa;">
+                            <h6 class="mb-0">Reference Object</h6>
+                          </div>
+                          <div class="card-body">
+                            <label class="form-label">Images</label>
+                            <input type="file" id="ref-images" class="form-control mb-3" multiple accept="image/*" />
+
+                            <label class="form-label">Material</label>
+                            <select id="ref-material" class="form-control mb-3"></select>
+
+                            <label class="form-label">Scale Reference</label>
+                            <select id="ref-scale-type" class="form-control mb-2"></select>
+                            <input id="ref-scale-text" class="form-control mb-2" placeholder="Scale text" />
+                            <input id="ref-distance" class="form-control mb-2" placeholder="Camera distance (m)" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Test Object -->
+                      <div class="col-md-6">
+                        <div class="card">
+                          <div class="card-header" style="background-color: #f8f9fa;">
+                            <h6 class="mb-0">Test Object</h6>
+                          </div>
+                          <div class="card-body">
+                            <label class="form-label">Images</label>
+                            <input type="file" id="test-images" class="form-control mb-3" multiple accept="image/*" />
+
+                            <label class="form-label">Material</label>
+                            <select id="test-material" class="form-control mb-3"></select>
+
+                            <label class="form-label">Scale Reference</label>
+                            <select id="test-scale-type" class="form-control mb-2"></select>
+                            <input id="test-scale-text" class="form-control mb-2" placeholder="Scale text" />
+                            <input id="test-distance" class="form-control mb-2" placeholder="Camera distance (m)" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <div class="text-center mt-4">
+                      <button class="btn btn-primary btn-lg" onclick="runComparison()">
+                        <strong>Generate Comparison Report</strong>
+                      </button>
+                    </div>
+
+                    <!-- Comparison Output -->
+                    <div id="cmp-output" class="comparison-output mt-4"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================= LEGACY COMPARISON SECTION (HIDDEN) ================= -->
+          <section id="legacy-comparison" class="page-section hidden">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h5>Digital Benchmarking - Image Comparison</h5>
+                  </div>
+                  <div class="card-body">
+
+                    <!-- Upload Section -->
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="card">
+                          <div class="card-header custom-header" style="background-color: #f3283f;">
+                            <h6 class="mb-0">Reference Image</h6>
+                          </div>
+                          <div class="card-body">
+                            <input type="file" id="referenceImage" class="form-control" accept="image/*">
+                            <div class="image-container">
+                              <img id="refPreview" class="image-preview" style="display:none;">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="card">
+                          <div class="card-header custom-header" style="background-color: #f3283f;">
+                            <h6 class="mb-0">Test Image</h6>
+                          </div>
+                          <div class="card-body">
+                            <input type="file" id="testImage" class="form-control" accept="image/*">
+                            <div class="image-container">
+                              <img id="testPreview" class="image-preview" style="display:none;">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Compare Button -->
+                    <div class="text-center">
+                      <button id="compareBtn" class="btn btn-primary btn-lg btn-compare">
+                        <i class="fa fa-refresh"></i> Compare Images
+                      </button>
+                    </div>
+
+                    <!-- Loading Spinner -->
+                    <div id="loadingSpinner" class="loading-spinner text-center">
+                      <img src="../assets/images/loading.gif" alt="Loading..." style="height:auto;">
+                      <p class="mt-2">Processing images... Please wait.</p>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div id="resultsSection" class="result-section">
+
+                      <!-- Segmented Images -->
+                      <div class="card mt-4">
+                        <div class="card-header custom-header" style="background-color: #f3283f;">
+                          <h5>Segmented Images</h5>
+                        </div>
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <h6 class="text-center">Reference Segmented</h6>
+                              <div class="image-container">
+                                <img id="refSegmented" class="image-preview">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <h6 class="text-center">Test Segmented</h6>
+                              <div class="image-container">
+                                <img id="testSegmented" class="image-preview">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Object Type Check -->
+                      <div class="card mt-4">
+                        <div class="card-header custom-header" style="background-color: #f3283f;">
+                          <h5 class="mb-0">Object Type Check</h5>
+                        </div>
+                        <div class="card-body">
+                          <div id="objectTypeCheck"></div>
+                        </div>
+                      </div>
+
+                      <!-- Attribute Comparison Table -->
+                      <div class="card mt-4">
+                        <div class="card-header custom-header" style="background-color: #f3283f;">
+                          <h5 class="mb-0">Attribute Comparison Table</h5>
+                        </div>
+                        <div class="card-body">
+                          <div class="table-responsive">
+                            <table class="table table-bordered comparison-table" id="attributeTable">
+                              <thead>
+                                <tr>
+                                  <th>Attributes</th>
+                                  <th>Reference Image</th>
+                                  <th>Test Image</th>
+                                  <th>Difference</th>
+                                </tr>
+                              </thead>
+                              <tbody id="attributeTableBody">
+                                <!-- Will be populated by JavaScript -->
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Inspection Summary -->
+                      <div class="card mt-4">
+                        <div class="card-header custom-header" style="background-color: #f3283f;">
+                          <h5 class="mb-0">Inspection Summary</h5>
+                        </div>
+                        <div class="card-body">
+                          <div id="inspectionSummary"></div>
+                        </div>
+                      </div>
+
+                      <!-- Note -->
+                      <div class="card mt-4">
+                        <div class="card-header custom-header" style="background-color: #f3283f;">
+                          <h5 class="mb-0">Note</h5>
+                        </div>
+                        <div class="card-body">
+                          <div id="note"></div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+  <script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+  <script src="../assets/js/scrollbar/simplebar.js"></script>
+  <script src="../assets/js/scrollbar/custom.js"></script>
+  <script src="../assets/js/config.js"></script>
+  <script src="../assets/js/sidebar-menu.js"></script>
+  <script src="../assets/js/sidebar-pin.js"></script>
+  <script src="../assets/js/script.js"></script>
+
+  <script>
+    const API_BASE = 'http://localhost:8070';
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const currentPath = window.location.pathname;
+
+      document.querySelectorAll(".sidebar-submenu a").forEach(link => {
+        const linkPath = new URL(link.getAttribute("href"), window.location.origin).pathname;
+
+        if (linkPath === currentPath) {
+          // Highlight submenu link
+          link.classList.add("active");
+
+          // Open submenu
+          const submenu = link.closest(".sidebar-submenu");
+          if (submenu) submenu.style.display = "block";
+
+          // Highlight parent sidebar item
+          const parentItem = link.closest(".sidebar-list");
+          if (parentItem) parentItem.classList.add("active");
+
+          // Highlight parent title
+          const parentTitle = parentItem.querySelector(".sidebar-title");
+          if (parentTitle) parentTitle.classList.add("active");
+        }
+      });
+    });
+
+    // Global variables
+    let MATERIALS = [];
+    const SCALES = ["From Image", "From Text", "From Object Distance"];
+
+    // ========================================================= 
+    // UTILITIES FROM INDEX.HTML
+    // =========================================================
+    function populate(id, options) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = "";
+      options.forEach(o => {
+        const opt = document.createElement("option");
+        opt.textContent = o;
+        el.appendChild(opt);
+      });
+    }
+
+    function showPage(id) {
+      // Hide all page sections
+      document.querySelectorAll(".page-section").forEach(p => p.classList.add("hidden"));
+      // Show the requested section
+      const targetSection = document.getElementById(id + "-section");
+      if (targetSection) {
+        targetSection.classList.remove("hidden");
+      }
+    }
+
+    function buildScale(type, text, dist) {
+      if (type === "From Image") return { scale_mode: "image" };
+      if (type === "From Text") return { scale_mode: "text", scale_text: text };
+      return {
+        scale_mode: "camera",
+        camera_params: { distance_m: dist }
+      };
+    }
+
+    // =========================================================
+    // LOADING OVERLAY
+    // =========================================================
+    function showLoading(text = "Processing...") {
+      let overlay = document.getElementById("loading-overlay-new");
+
+      if (!overlay) {
+        // Create loading overlay if it doesn't exist
+        overlay = document.createElement('div');
+        overlay.id = 'loading-overlay-new';
+        overlay.style.cssText = `
+      position: fixed;
+      inset: 0;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    `;
+
+        overlay.innerHTML = `
+      <img src="../assets/images/loading.gif" alt="Loading..." style="background:black; height: auto;">
+      <p id="loading-text-new" style="margin-top: 12px; font-weight: 500;">${text}</p>
+    `;
+
+        document.body.appendChild(overlay);
+      } else {
+        // Update text if overlay already exists
+        const label = document.getElementById("loading-text-new");
+        if (label) label.textContent = text;
+        overlay.style.display = 'flex';
+      }
+    }
+
+    function hideLoading() {
+      const overlay = document.getElementById("loading-overlay-new");
+      if (overlay) {
+        overlay.style.display = 'none';
+      }
+    }
+
+    // =========================================================
+    // SCALE VISIBILITY
+    // =========================================================
+    function setupScaleVisibility(typeId, textId, distId) {
+      const type = document.getElementById(typeId);
+      const text = document.getElementById(textId);
+      const dist = document.getElementById(distId);
+
+      if (!type || !text || !dist) return;
+
+      function update() {
+        text.style.display = "none";
+        dist.style.display = "none";
+
+        if (type.value === "From Text") text.style.display = "block";
+        if (type.value === "From Object Distance") dist.style.display = "block";
+      }
+
+      type.addEventListener("change", update);
+      update();
+    }
+
+    // =========================================================
+    // INSPECTION (FROM INDEX.HTML)
+    // =========================================================
+    async function runInspection() {
+      showLoading("Analyzing object...");
+      try {
+        const images = document.getElementById("insp-images").files;
+        if (!images.length) {
+          alert("Upload images first.");
+          hideLoading();
+          return;
+        }
+
+        /* -------- Step 1: REQUIRED class check -------- */
+        const fdCheck = new FormData();
+        [...images].forEach(f => fdCheck.append("reference_images", f));
+
+        const details = await fetch(`${API_BASE}/check-object-class`, {
+          method: "POST",
+          body: fdCheck
+        }).then(r => r.json());
+
+        /* -------- Step 2: attach scale + material -------- */
+        details.ref_scale = buildScale(
+          document.getElementById("insp-scale-type").value,
+          document.getElementById("insp-scale-text").value,
+          document.getElementById("insp-distance").value
+        );
+        details.ref_material = document.getElementById("insp-material").value;
+
+        /* -------- Step 3: inspection -------- */
+        showLoading("Generating inspection report...");
+
+        const fd = new FormData();
+        [...images].forEach(f => fd.append("reference_images", f));
+        fd.append("details", JSON.stringify(details));
+        fd.append("model", "llama");
+
+        const result = await fetch(`${API_BASE}/compare-images`, {
+          method: "POST",
+          body: fd
+        }).then(r => r.json());
+
+        renderResult("insp-output", result, 'inspection');
+
+      } catch (err) {
+        console.error(err);
+        alert("Inspection failed: " + err.message);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // =========================================================
+    // COMPARISON (FROM INDEX.HTML)
+    // =========================================================
+    async function runComparison() {
+      showLoading("Checking object compatibility...");
+      try {
+        const refImages = document.getElementById("ref-images");
+        const testImages = document.getElementById("test-images");
+
+        if (!refImages.files.length || !testImages.files.length) {
+          alert("Upload both reference and test images first.");
+          hideLoading();
+          return;
+        }
+
+        const fdCheck = new FormData();
+        [...refImages.files].forEach(f => fdCheck.append("reference_images", f));
+        [...testImages.files].forEach(f => fdCheck.append("test_images", f));
+
+        const details = await fetch(`${API_BASE}/check-object-class`, {
+          method: "POST",
+          body: fdCheck
+        }).then(r => r.json());
+
+        if (
+          details.same_class === 0 &&
+          !confirm(
+            `Objects may not belong to the same class.\n\n${details.details}\n\nContinue?`
+          )
+        ) {
+          hideLoading();
+          return;
+        }
+
+        showLoading("Running comparison analysis...");
+
+        details.ref_scale = buildScale(
+          document.getElementById("ref-scale-type").value,
+          document.getElementById("ref-scale-text").value,
+          document.getElementById("ref-distance").value
+        );
+        details.test_scale = buildScale(
+          document.getElementById("test-scale-type").value,
+          document.getElementById("test-scale-text").value,
+          document.getElementById("test-distance").value
+        );
+        details.ref_material = document.getElementById("ref-material").value;
+        details.test_material = document.getElementById("test-material").value;
+
+        const fdCompare = new FormData();
+        [...refImages.files].forEach(f => fdCompare.append("reference_images", f));
+        [...testImages.files].forEach(f => fdCompare.append("test_images", f));
+        fdCompare.append("details", JSON.stringify(details));
+        fdCompare.append("model", "llama");
+
+        const result = await fetch(`${API_BASE}/compare-images`, {
+          method: "POST",
+          body: fdCompare
+        }).then(r => r.json());
+
+        renderResult("cmp-output", result, 'comparison');
+
+      } catch (err) {
+        console.error(err);
+        alert("Comparison failed: " + err.message);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    // =========================================================
+    // OUTPUT RENDERING (UPDATED FOR TABLE FORMAT)
+    // =========================================================
+    function renderResult(containerId, res, mode = 'inspection') {
+      const el = document.getElementById(containerId);
+      if (!el) return;
+
+      // Parse the VLM content to extract table data
+      const vlmContent = res.vlm || '';
+      const tableData = parseTableFromMarkdown(vlmContent);
+
+      el.innerHTML = `
+    <!-- Images Section - Shown First -->
+    <div class="card mb-4">
+      <div class="card-header custom-header" style="background-color: #f3283f;">
+        <h5 class="mb-0"><strong>Processed Images</strong></h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          ${res.ref_image ? `
+          <div class="col-md-6 mb-3">
+            <h6>Reference - Original</h6>
+            <img src="data:image/png;base64,${res.ref_image}" class="img-fluid border rounded" />
+          </div>` : ''}
+          
+          ${res.ref_segmented ? `
+          <div class="col-md-6 mb-3">
+            <h6>Reference - Segmented</h6>
+            <img src="data:image/png;base64,${res.ref_segmented}" class="img-fluid border rounded" />
+          </div>` : ''}
+          
+          ${res.test_image ? `
+          <div class="col-md-6 mb-3">
+            <h6>Test - Original</h6>
+            <img src="data:image/png;base64,${res.test_image}" class="img-fluid border rounded" />
+          </div>` : ''}
+          
+          ${res.test_segmented ? `
+          <div class="col-md-6 mb-3">
+            <h6>Test - Segmented</h6>
+            <img src="data:image/png;base64,${res.test_segmented}" class="img-fluid border rounded" />
+          </div>` : ''}
+        </div>
+      </div>
+    </div>
+
+    <!-- Analysis Report Header -->
+    <div class="card mb-4">
+      <div class="card-header custom-header" style="background-color: #f3283f;">
+        <h5 class="mb-0"><strong>${mode === 'inspection' ? 'Analysis Report' : 'Analysis Report'}</strong></h5>
+      </div>
+      <div class="card-body">
+        ${renderTableContent(tableData, mode)}
+      </div>
+    </div>
+  `;
+    }
+
+    // =========================================================
+    // TABLE PARSING FROM MARKDOWN
+    // =========================================================
+    function parseTableFromMarkdown(markdown) {
+      const tableData = {
+        headers: [],
+        rows: []
+      };
+
+      if (!markdown) return tableData;
+
+      try {
+        // Find table in markdown (lines starting with |)
+        const lines = markdown.split('\n').filter(line => line.trim().startsWith('|'));
+
+        if (lines.length === 0) return tableData;
+
+        // Parse header (first line)
+        const headerLine = lines[0];
+        tableData.headers = headerLine
+          .split('|')
+          .map(cell => cell.trim())
+          .filter(cell => cell && cell !== '---');
+
+        // Parse data rows (skip separator line with ---)
+        for (let i = 1; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (line.includes('---')) continue;
+
+          const cells = line
+            .split('|')
+            .map(cell => cell.trim())
+            .filter((cell, index) => index > 0 && index <= tableData.headers.length);
+
+          if (cells.length > 0) {
+            tableData.rows.push(cells);
+          }
+        }
+      } catch (e) {
+        console.error('Error parsing table from markdown:', e);
+      }
+
+      return tableData;
+    }
+
+    // =========================================================
+    // RENDER TABLE CONTENT
+    // =========================================================
+    function renderTableContent(tableData, mode) {
+      if (!tableData.headers || tableData.headers.length === 0) {
+        return '<div class="alert alert-warning">No data available</div>';
+      }
+
+      // Build table HTML with scrollable wrapper
+      let tableHtml = `
+    <div class="table-scroll-container" style="max-height: 500px; overflow-y: auto; overflow-x: auto; border: 1px solid #dee2e6; border-radius: 4px;">
+      <table class="table table-bordered table-hover mb-0" style="margin-bottom: 0 !important;">
+        <thead class="custom-thead" style="background-color: #f3283f; color: #ffffff; position: sticky; top: 0; z-index: 10;">
+          <tr>
+            ${tableData.headers.map(header => `<th style="background-color: #f3283f; color: #ffffff;">${header}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+      // Add rows
+      tableData.rows.forEach(row => {
+        tableHtml += '<tr>';
+        row.forEach((cell, index) => {
+          // Highlight first column (attribute names)
+          if (index === 0) {
+            tableHtml += `<td><strong>${cell}</strong></td>`;
+          } else {
+            tableHtml += `<td>${cell}</td>`;
+          }
+        });
+        tableHtml += '</tr>';
+      });
+
+      tableHtml += `
+        </tbody>
+      </table>
+    </div>
+  `;
+
+      return tableHtml;
+    }
+
+    // =========================================================
+    // LEGACY COMPARISON FUNCTIONALITY (UPDATED)
+    // =========================================================
+
+    // Preview uploaded images (legacy)
+    function initializeLegacyEventListeners() {
+      const refImageInput = document.getElementById('referenceImage');
+      const testImageInput = document.getElementById('testImage');
+
+      if (refImageInput) {
+        refImageInput.addEventListener('change', function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const preview = document.getElementById('refPreview');
+              if (preview) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+              }
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+
+      if (testImageInput) {
+        testImageInput.addEventListener('change', function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const preview = document.getElementById('testPreview');
+              if (preview) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+              }
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+
+      // Compare Images (legacy)
+      const compareBtn = document.getElementById('compareBtn');
+      if (compareBtn) {
+        compareBtn.addEventListener('click', async function () {
+          const refImageFile = document.getElementById('referenceImage').files[0];
+          const testImageFile = document.getElementById('testImage').files[0];
+
+          if (!refImageFile || !testImageFile) {
+            alert('Please upload both reference and test images');
+            return;
+          }
+
+          // Show loading spinner
+          document.getElementById('loadingSpinner').style.display = 'block';
+          document.getElementById('resultsSection').style.display = 'none';
+
+          try {
+            // First, check object class
+            const checkFormData = new FormData();
+            checkFormData.append('reference_images', refImageFile);
+            checkFormData.append('test_images', testImageFile);
+
+            const checkResponse = await fetch(`${API_BASE}/check-object-class`, {
+              method: 'POST',
+              body: checkFormData
+            });
+
+            if (!checkResponse.ok) throw new Error('Failed to check object class');
+            const objectCheckData = await checkResponse.json();
+
+            // Then, compare images
+            const compareFormData = new FormData();
+            compareFormData.append('reference_images', refImageFile);
+            compareFormData.append('test_images', testImageFile);
+            compareFormData.append('details', JSON.stringify(objectCheckData));
+            compareFormData.append('model', 'llama');
+
+            const compareResponse = await fetch(`${API_BASE}/compare-images`, {
+              method: 'POST',
+              body: compareFormData
+            });
+
+            if (!compareResponse.ok) throw new Error('Failed to compare images');
+            const compareData = await compareResponse.json();
+
+            // Display results
+            displayLegacyResults(objectCheckData, compareData);
+
+          } catch (error) {
+            console.error('Error:', error);
+            alert('Error processing images: ' + error.message);
+          } finally {
+            document.getElementById('loadingSpinner').style.display = 'none';
+          }
+        });
+      }
+    }
+
+    function displayLegacyResults(objectCheckData, compareData) {
+      // Show results section
+      document.getElementById('resultsSection').style.display = 'block';
+
+      // Display segmented images
+      const refSegmented = document.getElementById('refSegmented');
+      const testSegmented = document.getElementById('testSegmented');
+      if (refSegmented) refSegmented.src = 'data:image/png;base64,' + compareData.ref_segmented;
+      if (testSegmented) testSegmented.src = 'data:image/png;base64,' + compareData.test_segmented;
+
+      // Parse table from VLM output
+      const vlmOutput = compareData.vlm || '';
+      const tableData = parseTableFromMarkdown(vlmOutput);
+
+      // Display results in table format
+      const resultsContainer = document.getElementById('comparisonResults');
+      if (resultsContainer) {
+        resultsContainer.innerHTML = renderTableContent(tableData, 'comparison');
+      }
+
+      // Scroll to results
+      document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // =========================================================
+    // INITIALIZATION
+    // =========================================================
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', async function () {
+      try {
+        // Fetch materials from backend
+        MATERIALS = await fetch(`${API_BASE}/materials`).then(r => r.json()).catch(() => []);
+
+        // Populate material dropdowns
+        ["insp-material", "ref-material", "test-material"].forEach(id =>
+          populate(id, MATERIALS)
+        );
+
+        // Populate scale dropdowns
+        ["insp-scale-type", "ref-scale-type", "test-scale-type"].forEach(id =>
+          populate(id, SCALES)
+        );
+
+        // Setup scale visibility handlers
+        setupScaleVisibility("insp-scale-type", "insp-scale-text", "insp-distance");
+        setupScaleVisibility("ref-scale-type", "ref-scale-text", "ref-distance");
+        setupScaleVisibility("test-scale-type", "test-scale-text", "test-distance");
+
+        // Initialize legacy event listeners
+        initializeLegacyEventListeners();
+
+        // Show inspection section by default
+        showPage('inspection');
+
+      } catch (error) {
+        console.error('Initialization error:', error);
+      }
+    });
+
+    // Initialize feather icons
+    if (typeof feather !== 'undefined') {
+      feather.replace();
+    }
+
+  </script>
+</body>
+
+</html>

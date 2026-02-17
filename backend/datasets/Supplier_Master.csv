@@ -1,0 +1,31 @@
+supplier_name,country,region,materials,product_forms,certifications,cost_usd
+Tata Steel,India,APAC,Structural Steel;Carbon Steel,Plates;Coils,ISO,12000
+JSW Steel,India,APAC,Structural Steel;Alloy Steel,Plates;Coils,ISO,12500
+SAIL,India,APAC,Structural Steel,Plates,ISO,11800
+ArcelorMittal,Germany,Europe,Structural Steel,Plates;Coils,ISO,14000
+Thyssenkrupp,Germany,Europe,Structural Steel;Alloy Steel,Plates;Coils,ISO,13800
+POSCO,South Korea,APAC,Structural Steel;Stainless Steel,Coils,ISO,12200
+Nippon Steel,Japan,APAC,Structural Steel;Alloy Steel,Plates,ISO,13000
+Baosteel,China,APAC,Structural Steel,Plates;Coils,ISO,12150
+United States Steel,USA,NA,Structural Steel,Plates,ISO,14500
+Nucor,USA,NA,Structural Steel;Carbon Steel,Bars;Plates,ISO,12700
+Alcoa,USA,NA,Aluminum Alloy,Extrusions;Plates,ISO,13500
+Hydro Aluminium,Norway,Europe,Aluminum Alloy,Extrusions,ISO,13850
+Hindalco,India,APAC,Aluminum Alloy,Plates;Extrusions,ISO,13200
+Vedanta Aluminium,India,APAC,Aluminum Alloy,Ingots,ISO,12900
+Outokumpu,Finland,Europe,Stainless Steel,Plates;Coils,ISO,13700
+Aperam,France,Europe,Stainless Steel,Plates;Coils,ISO,14000
+Sandvik,Sweden,Europe,Stainless Steel;Alloy Steel,Bars;ISO,ISO,13600
+Rheinmetall Materials,Germany,Europe,Alloy Steel,Forgings,ISO,15000
+TimkenSteel,USA,NA,Alloy Steel,Bars;Forgings,ISO,14200
+Daido Steel,Japan,APAC,Alloy Steel,Bars,ISO,14550
+Carpenter Technology,USA,NA,Tool Steel,Bars,ISO,14800
+Bohler Edelstahl,Austria,Europe,Tool Steel,Bars,ISO,14100
+Eramet,France,Europe,Alloy Steel,Bars,ISO,13900
+Voestalpine,Austria,Europe,Structural Steel;Tool Steel,Plates;Bars,ISO,14400
+Jindal Stainless,India,APAC,Stainless Steel,Plates;Coils,ISO,13250
+Acerinox,Spain,Europe,Stainless Steel,Plates;Coils,ISO,13750
+MMK,Russia,Europe,Structural Steel,Plates,ISO,14050
+Metinvest,Ukraine,APAC,Structural Steel,Plates,ISO,14120
+Shagang Group,China,APAC,Structural Steel,Plates;Coils,ISO,13680
+Gerdau,Brazil,LatAm,Structural Steel,Bars;Plates,ISO,13400

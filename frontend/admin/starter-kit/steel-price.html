@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../assets/images/fuso_logo.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="../assets/images/fuso_logo.png" type="image/x-icon" />
+    <meta name="description" content="Steel Price Prediction" />
+    <title>Steel Price Prediction - FUSO</title>
+    <!-- Fonts & CSS (same as theme) -->
+    <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/icofont.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/themify.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/flag-icon.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/feather-icon.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/slick.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/scrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/flatpickr/flatpickr.min.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
+    <link id="color" rel="stylesheet" href="../assets/css/color-1.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/responsive.css" />
+    <style>
+        /* small custom styles for clarity */
+        .poctitle {
+            margin-bottom: 1rem;
+        }
+
+        #chart {
+            height: 360px;
+        }
+
+        .loading {
+            display: none;
+        }
+
+        /* Constrain FUSO logo sizes site-wide for headers/sidebars */
+        .header-logo-wrapper .logo-wrapper img {
+            max-height: 36px;
+            width: auto;
+        }
+
+        .page-header .header-logo-wrapper .logo-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-wrapper .logo-wrapper img {
+            max-height: 40px;
+            width: auto;
+        }
+
+        /* Header logo size fix */
+        .header-logo-wrapper .logo-wrapper img {
+            max-height: 28px;
+            width: auto;
+        }
+
+        .sidebar-logo-title {
+            display: inline-block !important;
+            font-size: 30px;
+            font-weight: 700;
+            color: #f3283f;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        /* Scrollable table container: keeps the header visible and table body scrollable */
+        .table-scroll-wrapper {
+            max-height: 360px;
+            overflow-y: auto;
+        }
+
+        .table-scroll-wrapper table {
+            margin-bottom: 0;
+        }
+
+        .table-scroll-wrapper thead th {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 5;
+        }
+
+        /* Strong full-viewport footer override */
+        footer.footer {
+            position: relative;
+            width: 100vw;
+            left: 50%;
+            margin-left: -50vw;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        footer.footer .container-fluid {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            max-width: 100% !important;
+        }
+
+        .page-body {
+            overflow: visible !important;
+        }
+
+        /* App (left) logo */
+        .app-logo {
+            max-height: 28px;
+            width: auto;
+        }
+
+        /* Office (right) logo */
+        .office-logo {
+            max-height: 32px;
+            width: auto;
+        }
+
+        /* Header alignment fix */
+        .page-header .header-wrapper {
+            min-height: 60px;
+        }
+
+        #dataTable thead th {
+            position: sticky;
+            top: 0;
+            background-color: #f3283f;
+            color: #fff;
+            z-index: 10;
+            font-weight: 600;
+        }
+
+        .sidebar-logout-item {
+            border-top: 1px solid #dee2e6;
+            margin-top: 422px;
+            padding-top: 15px;
+        }
+
+        .sidebar-logout {
+            border-top: 1px solid #e9ecef;
+            padding-top: 15px;
+            margin-top: 20px;
+        }
+
+        .sidebar-logout .sidebar-link {
+            justify-content: flex-start !important;
+            padding: 12px 20px !important;
+            border-radius: 8px !important;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-logout .sidebar-link:hover {
+            background-color: #cccccc !important;
+            color: #f3283f !important;
+        }
+
+        .sidebar-logout i {
+            color: #ffffff;
+            margin-right: 10px;
+        }
+
+        .btn btn-primary {
+            background-color: #f3283f !important;
+            border-color: #f3283f !important;
+        }
+
+        .sidebar-submenu a.active {
+            color: #7e7e7e;
+            font-weight: 600;
+        }
+
+        .sidebar-list.active>.sidebar-title {
+            background-color: #7e7e7e;
+            color: #fff;
+        }
+
+        .sidebar-list.active svg {
+            stroke: #fff;
+            fill: #fff;
+        }
+
+        /* 🔥 Kill sidebar arrow completely for Home */
+        .sidebar-list.no-arrow>a {
+            background: none !important;
+            background-image: none !important;
+        }
+
+        /* Kill pseudo elements */
+        .sidebar-list.no-arrow>a::after,
+        .sidebar-list.no-arrow>a::before {
+            content: none !important;
+            display: none !important;
+        }
+
+        /* Kill icon arrows if present */
+        .sidebar-list.no-arrow i,
+        .sidebar-list.no-arrow .according-menu,
+        .sidebar-list.no-arrow .sidebar-icon,
+        .sidebar-list.no-arrow .fa-angle-right,
+        .sidebar-list.no-arrow .fa-chevron-right {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- (Header + sidebar from template retained minimally) -->
+    <div class="page-wrapper compact-wrapper" id="pageWrapper">
+        <!-- Page Header (kept simple) -->
+        <div class="page-header">
+            <div class="header-wrapper row m-0 align-items-center">
+
+                <!-- LEFT: FUSO logo -->
+                <div class="header-logo-wrapper col-auto p-0 d-flex align-items-center">
+                    <div class="logo-wrapper">
+                        <a href="index.html">
+                            <img class="img-fluid for-light" src="../assets/images/fuso_logo.png" alt="FUSO" />
+                        </a>
+                    </div>
+                    <div class="toggle-sidebar ms-2">
+                        <i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i>
+                    </div>
+                </div>
+
+                <!-- CENTER: Title -->
+                <div class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0">
+                    <div class="d-flex align-items-center">
+                        <h3 class="f-w-600 mb-0">Flat Steel Prediction - Hot Rolled Coil Price Prediction</h3>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Office logo (FORCED to extreme right) -->
+                <div class="col-auto ms-auto d-flex align-items-center">
+                    <img src="../assets/images/intelizign_logo.png" alt="Office Logo" class="img-fluid"
+                        style="height: 42px; width: auto;">
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="page-body-wrapper horizontal-menu">
+            <!-- Page Sidebar Start-->
+            <div class="sidebar-wrapper" data-layout="stroke-svg">
+                <div>
+                    <div class="logo-wrapper d-flex align-items-center">
+                        <a href="index.html" class="d-flex align-items-center">
+                            <!-- <img class="img-fluid" src="../assets/images/fuso_logo.png" alt="FUSO"> -->
+                            <span class="sidebar-logo-title">FUSO</span>
+                        </a>
+
+                        <div class="back-btn ms-auto">
+                            <i class="fa fa-angle-left"></i>
+                        </div>
+
+                        <div class="toggle-sidebar ms-2">
+                            <i class="status_toggle middle sidebar-toggle" data-feather="grid"></i>
+                        </div>
+                    </div>
+                    <div class="logo-icon-wrapper"><a href="index.html"><img class="img-fluid"
+                                src="../assets/images/fuso_logo.png" alt="FUSO icon" /></a></div>
+                    <nav class="sidebar-main">
+                        <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
+                        <div id="sidebar-menu">
+                            <ul class="sidebar-links" id="simple-bar">
+                                <li class="back-btn">
+                                    <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
+                                            aria-hidden="true"></i></div>
+                                </li>
+                                <!-- <li class="pin-title sidebar-main-title">
+                                    <div>
+                                        <h6>Pinned</h6>
+                                    </div>
+                                </li> -->
+                                <!-- POCs menu -->
+                                <li class="sidebar-main-title">
+                                    <!-- <div>
+                                        <h6>POCs</h6>
+                                    </div> -->
+                                </li>
+                                <li class="sidebar-list no-arrow">
+                                    <a class="sidebar-link sidebar-title" href="../template/index.html">
+                                        <svg class="stroke-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#stroke-home"></use>
+                                        </svg>
+                                        <svg class="fill-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#fill-home"></use>
+                                        </svg>
+                                        <span>Home</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-list"><a class="sidebar-link sidebar-title"
+                                        href="flat-steel-overview.html">
+                                        <svg class="stroke-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#stroke-charts"></use>
+                                        </svg>
+                                        <svg class="fill-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#fill-charts"></use>
+                                        </svg><span>Flat Steel Prediction</span></a>
+                                    <ul class="sidebar-submenu">
+                                        <li><a href="flat-steel-overview.html">Overview</a></li>
+                                        <li><a href="steel-price.html">Prediction</a></li>
+                                        <li><a href="test-data.html">Test data</a></li>
+                                        <li><a href="prediction-comparison.html">Prediction comparison</a></li>
+                                        <li><a href="historical.html">Historical data</a></li>
+                                    </ul>
+                                </li>
+                                <li class="sidebar-list">
+                                    <a class="sidebar-link sidebar-title" href="#">
+                                        <svg class="stroke-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#stroke-widget"></use>
+                                        </svg>
+                                        <svg class="fill-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#fill-widget"></use>
+                                        </svg>
+                                        <span>Digital Costing</span>
+                                    </a>
+
+                                    <ul class="sidebar-submenu">
+                                        <li><a href="digital-cost-overview.html">Overview</a></li>
+                                        <li>
+                                            <a href="../starter-kit/cost-calculation.html">Data Insights</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="sidebar-list">
+                                    <a class="sidebar-link sidebar-title" href="#">
+                                        <svg class="stroke-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#stroke-project"></use>
+                                        </svg>
+                                        <!-- <svg class="fill-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#fill-layout"></use>
+                                        </svg> -->
+                                        <span>Digital Benchmarking</span>
+                                    </a>
+                                    <ul class="sidebar-submenu">
+                                        <li><a href="../starter-kit/digital_bench_overview.html">Overview</a></li>
+                                        <li><a href="../starter-kit/digital-benchmarking.html">Inspection</a></li>
+                                        <li><a href="../starter-kit/digital-benchmarking.html">Comparison</a></li>
+                                    </ul>
+                                </li>
+                                <li class="sidebar-list">
+                                    <a class="sidebar-link sidebar-title" href="#">
+                                        <svg class="stroke-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#stroke-layout"></use>
+                                        </svg>
+                                        <svg class="fill-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#fill-layout"></use>
+                                        </svg>
+                                        <span>BCC Supplier Finder</span>
+                                    </a>
+
+                                    <ul class="sidebar-submenu">
+                                        <li>
+                                            <a href="supplier_overview.html">Overview</a>
+                                        </li>
+                                        <li>
+                                            <a href="../starter-kit/supplier_identification.html">BCC Supplier
+                                                Insights</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!-- <li class="sidebar-list">
+                                    <a class="sidebar-link sidebar-title" href="#">
+                                        <svg class="stroke-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#stroke-layout"></use>
+                                        </svg>
+                                        <svg class="fill-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#fill-layout"></use>
+                                        </svg>
+                                        <span>Digital Benchmarking</span>
+                                    </a>
+
+                                    <ul class="sidebar-submenu">
+                                        <li>
+                                            <a href="../starter-kit/digital-benchmarking.html">Cost Insights</a>
+                                        </li>
+                                    </ul>
+                                </li> -->
+                                <li class="sidebar-logout sidebar-list">
+                                    <a class="sidebar-link sidebar-title" href="#" id="sidebarLogoutBtn">
+                                        <i class="fa fa-sign-out" data-feather="log-out"></i>
+                                        <svg class="stroke-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#stroke-logout"></use>
+                                        </svg>
+                                        <svg class="fill-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#fill-logout"></use>
+                                        </svg>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
+                    </nav>
+                </div>
+            </div>
+            <!-- Page Sidebar Ends-->
+
+            <div class="page-body">
+                <div class="container-fluid">
+                    <!-- PAGE TITLE / BREADCRUMBS -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="page-title">
+                                <div class="row align-items-center">
+                                    <!-- LEFT: Breadcrumb -->
+                                    <div class="col-sm-6 text-start">
+                                        <ol class="breadcrumb mb-0 justify-content-start align-items-center">
+                                            <li class="breadcrumb-item">
+                                                <a href="../template/index.html"
+                                                    class="d-flex align-items-center gap-1">
+                                                    <i class="fa fa-home" style="font-size:12px;"></i>
+                                                    Home
+                                                </a>
+                                            </li>
+                                            <li class="breadcrumb-item active">Flat Steel Price Prediction</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <!-- <h5 class="poctitle">Flat Steel Price Prediction</h5> -->
+                                    <div class="row g-3 align-items-end">
+                                        <div class="col-md-2">
+                                            <label class="form-label"><strong>Model Version</strong></label>
+                                            <select id="version" class="form-select">
+                                                <option value="v9">v9</option>
+                                                <option value="v6">v6</option>
+                                                <option value="v3">v3</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="form-label"><strong>Country</strong></label>
+                                            <select id="country" class="form-select" disabled>
+                                                <option value="China" selected>China</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="form-label"><strong>Start date</strong></label>
+                                            <input id="start_date" class="form-control flatpickr"
+                                                placeholder="Select start" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="form-label"><strong>End date</strong></label>
+                                            <input id="end_date" class="form-control flatpickr"
+                                                placeholder="Select end" />
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button id="applyBtn" class="btn btn-primary">Apply</button>
+                                            <span id="loading" class="ms-2 loading">Loading...</span>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div id="info" class="mb-3"></div>
+                                    <div class="mb-2">
+                                        <button id="toggleHistoricalBtn" class="btn btn-outline-secondary btn-sm"
+                                            type="button">Hide Historical</button>
+                                    </div>
+                                    <div id="chart"></div>
+                                    <hr />
+                                    <div class="table-responsive table-scroll-wrapper">
+                                        <table class="table table-bordered mt-3 table-scrollable" id="dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Price</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- filled by JS -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- footer start-->
+            </div>
+        </div>
+
+        <!-- scripts (same pattern as theme) -->
+        <script src="../assets/js/jquery.min.js"></script>
+        <script src="../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
+        <script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+        <script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+        <script src="../assets/js/scrollbar/simplebar.js"></script>
+        <script src="../assets/js/scrollbar/custom.js"></script>
+        <script src="../assets/js/config.js"></script>
+        <script src="../assets/js/sidebar-menu.js"></script>
+        <script src="../assets/js/sidebar-pin.js"></script>
+        <script src="../assets/js/plugins.bundle.js"></script>
+        <script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+        <script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+        <script src="../assets/js/scrollbar/simplebar.js"></script>
+        <script src="../assets/js/scrollbar/custom.js"></script>
+        <script src="../assets/js/config.js"></script>
+        <script src="../assets/js/sidebar-menu.js"></script>
+        <script src="../assets/js/sidebar-pin.js"></script>
+        <script src="../assets/js/script.js"></script>
+
+        <!-- flatpickr initialization (plugins.bundle contains flatpickr) -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const currentPage = window.location.pathname.split("/").pop();
+
+                document.querySelectorAll(".sidebar-submenu a").forEach(link => {
+                    const href = link.getAttribute("href");
+
+                    if (href && href.includes(currentPage)) {
+                        // highlight submenu link
+                        link.classList.add("active");
+
+                        // open submenu
+                        const submenu = link.closest(".sidebar-submenu");
+                        submenu.style.display = "block";
+
+                        // highlight parent sidebar item
+                        const parentItem = link.closest(".sidebar-list");
+                        parentItem.classList.add("active");
+
+                        // highlight parent title link
+                        const parentTitle = parentItem.querySelector(".sidebar-title");
+                        parentTitle.classList.add("active");
+                    }
+                });
+            });
+            // Default ranges per spec
+            const HISTORICAL_MIN = '2015-12-01';
+            const HISTORICAL_MAX = '2025-02-28';
+            const HISTORICAL_DEFAULT_START = '2024-01-08';
+            const HISTORICAL_DEFAULT_END = '2025-02-28';
+
+            const PREDICTION_DEFAULT_START = '2025-03-01';
+            const PREDICTION_DEFAULT_END = '2025-05-09';
+
+            document.addEventListener('DOMContentLoaded', function () {
+                // initialize flatpickr and set prediction defaults
+                if (window.flatpickr) {
+                    flatpickr('#start_date', { dateFormat: 'Y-m-d', defaultDate: PREDICTION_DEFAULT_START });
+                    flatpickr('#end_date', { dateFormat: 'Y-m-d', defaultDate: PREDICTION_DEFAULT_END });
+                }
+
+                // show available historical data range
+                const info = document.getElementById('info');
+                info.innerHTML = `<div class="mb-2"><small class="text-muted">Historical available: ${HISTORICAL_MIN} to ${HISTORICAL_MAX}. Default view: ${HISTORICAL_DEFAULT_START} to ${HISTORICAL_DEFAULT_END}. Prediction default: ${PREDICTION_DEFAULT_START} to ${PREDICTION_DEFAULT_END} (editable)</small></div>`;
+
+                // load defaults: historical + prediction (default version)
+                loadDefaults().then(() => {
+                    // if user previously chose to hide historical, switch view to predicted-only
+                    if ((localStorage.getItem('showHistorical') ?? 'true') === 'false') {
+                        window.historicalVisible = false;
+                        const btn = document.getElementById('toggleHistoricalBtn');
+                        if (btn) btn.textContent = 'Show Historical';
+                        // Re-render using cached full datasets but with historicalHidden so we don't overwrite cached historical
+                        mergeAndRender(window._lastHistorical || [], window._lastPredicted || [], window._lastVersion || document.getElementById('version')?.value);
+                    }
+                });
+            });
+
+            // Helper: API base
+            // Backend is usually started with: `uvicorn app.main:app --host 0.0.0.0 --port 8090`
+            const API_BASE = 'http://localhost:8090';
+
+            let chart = null;
+            let currentHistorical = [];
+
+            function mergeAndRender(historicalRows, predictedRows, versionLabel) {
+                // store last inputs for toggling but avoid clobbering a cached non-empty historical set
+                window._lastHistorical = (historicalRows && historicalRows.length) ? historicalRows : (window._lastHistorical || []);
+                window._lastPredicted = (predictedRows && predictedRows.length) ? predictedRows : (window._lastPredicted || []);
+                window._lastVersion = versionLabel || window._lastVersion || document.getElementById('version')?.value;
+
+                const renderHistorical = (typeof window.historicalVisible === 'undefined') ? true : window.historicalVisible;
+
+                // map by date for fast lookup
+                const histMap = new Map(historicalRows.map(r => [r.date, Number(r.flat_steel_price)]));
+                const predMap = new Map(predictedRows.map(r => [r.date, Number(r.predicted)]));
+
+                const histSeries = historicalRows.map(r => ({
+                    x: new Date(r.date).getTime(),  // date in timestamp
+                    y: Number(r.flat_steel_price)    // value
+                }));
+
+                const predSeries = predictedRows.map(r => ({
+                    x: new Date(r.date).getTime(),
+                    y: Number(r.predicted)
+                }));
+
+
+                // render chart
+                if (chart) chart.destroy();
+                const series = [];
+                if (renderHistorical) series.push({ name: 'Historical', data: histSeries });
+                series.push({ name: `Predicted (${versionLabel})`, data: predSeries });
+
+                const stroke = series.length === 2 ? { curve: 'smooth', width: [2, 2], dashArray: [0, 4] } : { curve: 'smooth', width: [2], dashArray: [0] };
+
+                // add annotation for Best Buy as a vertical line (x-axis) if present
+                const annotations = { xaxis: [] };
+                const best = window._lastBestBuy;
+
+                if (best && best.date) {
+                    annotations.xaxis.push({
+                        x: new Date(best.date).getTime(),
+                        strokeDashArray: 4,
+                        borderColor: '#28a745',
+                        label: {
+                            borderColor: '#28a745',
+                            style: {
+                                color: '#fff',
+                                background: '#28a745',
+                                fontSize: '10px',
+                                fontWeight: 600
+                            },
+                            orientation: 'horizontal',
+                            offsetX: -40,   // ⬅️ move label to LEFT
+                            offsetY: -10,   // ⬆️ move label to TOP
+                            text: `Best Buy: ${best.date}`
+                        }
+                    });
+                }
+
+                const options = {
+                    chart: { type: 'line', height: 360, zoom: { enabled: false } },
+                    series: series,
+                    xaxis: {
+                        type: 'datetime',
+                        labels: {
+                            rotate: -45,
+                            format: 'MMM yyyy'
+                        }
+                    },
+                    yaxis: {
+                        labels: {
+                            formatter: function (value) {
+                                return Math.round(value);
+                            }
+                        }
+                    },
+                    stroke: stroke,
+                    tooltip: {
+                        x: {
+                            format: 'dd MMM yyyy'
+                        }
+                    },
+                    annotations: annotations
+                };
+                chart = new ApexCharts(document.querySelector('#chart'), options);
+                chart.render();
+
+                // fill combined table: historical first (by date), then predicted
+                const tbody = document.querySelector('#dataTable tbody');
+                tbody.innerHTML = '';
+
+                if (renderHistorical) {
+                    // historical rows sorted
+                    const histDates = historicalRows.map(r => r.date).sort();
+                    histDates.forEach(d => {
+                        const val = histMap.get(d);
+                        const tr = document.createElement('tr');
+                        tr.classList.add('historical-row');
+                        tr.innerHTML = `<td>${d}</td><td>${val} <small class="text-muted">(historical)</small></td>`;
+                        tbody.appendChild(tr);
+                    });
+                }
+
+                // predicted rows sorted
+                const predDates = predictedRows.map(r => r.date).sort();
+                predDates.forEach(d => {
+                    const val = predMap.get(d);
+                    const tr = document.createElement('tr');
+                    tr.classList.add('predicted-row');
+                    tr.innerHTML = `<td>${d}</td><td>${val} <small class="text-muted">(predicted)</small></td>`;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            function showInfo(best_buy, records, histCount) {
+                const info = document.getElementById('info');
+                let html = `<div class="mb-2"><small class="text-muted">Historical available: ${HISTORICAL_MIN} to ${HISTORICAL_MAX}. Default view: ${HISTORICAL_DEFAULT_START} to ${HISTORICAL_DEFAULT_END}.</small></div>`;
+                if (!best_buy) {
+                    html += `<div class="alert alert-warning">No prediction data available</div>`;
+                    info.innerHTML = html;
+                    return;
+                }
+                html += `<div class="row">
+          <div class="col-md-4"><strong>Historical records:</strong> ${histCount}</div>
+          <div class="col-md-4"><strong>Prediction records:</strong> ${records}</div>
+          <div class="col-md-4"><strong>Best Buy:</strong> ${best_buy.date} @ ${best_buy.price}</div>
+        </div>`;
+                info.innerHTML = html;
+            }
+
+            async function fetchPrediction(version, start_date, end_date) {
+                const token = localStorage.getItem("access_token"); // get token
+                const resp = await fetch(`${API_BASE}/prediction/individual?version=${encodeURIComponent(version)}&start_date=${encodeURIComponent(start_date)}&end_date=${encodeURIComponent(end_date)}`, {
+                    headers: {
+                        "Authorization": `Bearer ${token}` // send token
+                    }
+                });
+                if (!resp.ok) throw new Error('Network response was not ok');
+                return resp.json();
+            }
+
+            async function fetchHistorical(start_date, end_date) {
+                const token = localStorage.getItem("access_token"); // get token
+                const resp = await fetch(`${API_BASE}/historical/?start_date=${encodeURIComponent(start_date)}&end_date=${encodeURIComponent(end_date)}`, {
+                    headers: {
+                        "Authorization": `Bearer ${token}` // send token
+                    }
+                });
+                if (!resp.ok) throw new Error('Network response was not ok');
+                return resp.json();
+            }
+
+
+            async function loadDefaults() {
+                const version = document.getElementById('version').value;
+                try {
+                    document.getElementById('loading').style.display = 'inline';
+                    const [histJson, predJson] = await Promise.all([
+                        fetchHistorical(HISTORICAL_DEFAULT_START, HISTORICAL_DEFAULT_END),
+                        fetchPrediction(version, PREDICTION_DEFAULT_START, PREDICTION_DEFAULT_END)
+                    ]);
+                    document.getElementById('loading').style.display = 'none';
+
+                    const historical = Array.isArray(histJson) ? histJson : (histJson.data || []);
+                    const predicted = predJson.data || [];
+
+                    currentHistorical = historical;
+                    // store best buy for chart annotation
+                    window._lastBestBuy = predJson.best_buy || null;
+
+                    if (predJson.message) {
+                        // no prediction data
+                        window._lastBestBuy = null;
+                        mergeAndRender(historical, [], version);
+                        showInfo(null, 0, historical.length);
+                        return;
+                    }
+
+                    mergeAndRender(historical, predicted, version);
+                    const records = predJson.records || predicted.length;
+                    const best_buy = predJson.best_buy || null;
+                    showInfo(best_buy, records, historical.length);
+
+                } catch (err) {
+                    document.getElementById('loading').style.display = 'none';
+                    console.error(err);
+                    alert('Failed to fetch defaults (check backend is running and API_BASE in the page)');
+                }
+            }
+
+            document.getElementById('applyBtn').addEventListener('click', async function () {
+                const version = document.getElementById('version').value;
+                const start_date = document.getElementById('start_date').value;
+                const end_date = document.getElementById('end_date').value;
+
+                if (!start_date || !end_date) {
+                    alert('Please select start and end dates');
+                    return;
+                }
+
+                document.getElementById('loading').style.display = 'inline';
+                try {
+                    const json = await fetchPrediction(version, start_date, end_date);
+                    document.getElementById('loading').style.display = 'none';
+
+                    // store best buy for chart annotation
+                    window._lastBestBuy = json.best_buy || null;
+
+                    if (json.message) {
+                        // show historical only
+                        window._lastBestBuy = null;
+                        mergeAndRender(currentHistorical, [], version);
+                        showInfo(null, 0, currentHistorical.length);
+                        return;
+                    }
+
+                    const records = json.records || (json.data && json.data.length) || 0;
+                    const best_buy = json.best_buy || null;
+                    const rows = json.data || json;
+
+                    mergeAndRender(currentHistorical, rows, version);
+                    showInfo(best_buy, records, currentHistorical.length);
+
+                } catch (err) {
+                    document.getElementById('loading').style.display = 'none';
+                    console.error(err);
+                    alert('Failed to fetch prediction (check backend is running and API_BASE in the page)');
+                }
+            });
+
+            // Historical show/hide toggle
+            (function () {
+                window.historicalVisible = (localStorage.getItem('showHistorical') ?? 'true') === 'true';
+                const toggleBtn = document.getElementById('toggleHistoricalBtn');
+                function updateToggle() { if (toggleBtn) toggleBtn.textContent = window.historicalVisible ? 'Hide Historical' : 'Show Historical'; }
+                function toggleHistorical() {
+                    window.historicalVisible = !window.historicalVisible;
+                    localStorage.setItem('showHistorical', window.historicalVisible);
+                    // Re-render chart/table using stored data so dates reflect predicted-only when hidden
+                    mergeAndRender(window._lastHistorical || [], window._lastPredicted || [], window._lastVersion || document.getElementById('version')?.value);
+                    updateToggle();
+                }
+                if (toggleBtn) { updateToggle(); toggleBtn.addEventListener('click', toggleHistorical); }
+            })();
+            function handleLogout() {
+                localStorage.removeItem("access_token");
+                window.location.href = "../template/login.html";
+            }
+
+            // Header logout button (if you keep it)
+            const headerLogoutBtn = document.getElementById("logoutBtn");
+            if (headerLogoutBtn) {
+                headerLogoutBtn.addEventListener("click", handleLogout);
+            }
+
+            // NEW: Sidebar logout button
+            const sidebarLogoutBtn = document.getElementById("sidebarLogoutBtn");
+            if (sidebarLogoutBtn) {
+                sidebarLogoutBtn.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    handleLogout();
+                });
+            }
+
+        </script>
+</body>
+
+</html>
