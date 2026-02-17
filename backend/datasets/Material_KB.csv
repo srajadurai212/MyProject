@@ -1,0 +1,31 @@
+part_name,material_family,standard,grade,yield_strength_mpa,process
+Suspension Bracket,Structural Steel,ASTM,A572 Gr50,345,Forging
+Engine Mount,Structural Steel,EN,S355,355,Forging
+Gear Shaft,Alloy Steel,ASTM,AISI 4140,655,Forging
+Brake Disc,Cast Iron,ASTM,ASTM A48 Class 30,200,Casting
+Chassis Plate,Structural Steel,EN,S355,355,Sheet Metal
+Steering Knuckle,Alloy Steel,EN,42CrMo4,650,Forging
+Control Arm,Structural Steel,ASTM,A36,250,Sheet Metal
+Axle Beam,Structural Steel,IS,E350,350,Forging
+Propeller Shaft,Alloy Steel,ASTM,AISI 4340,745,Forging
+Door Panel,Aluminum Alloy,ASTM,6061-T6,275,Extrusion
+Window Frame,Aluminum Alloy,EN,6082,250,Extrusion
+Hood Panel,Aluminum Alloy,IS,HE30,240,Extrusion
+Fuel Tank,Stainless Steel,ASTM,SS 304,215,Sheet Metal
+Exhaust Pipe,Stainless Steel,EN,1.4301,215,Sheet Metal
+Radiator,Aluminum Alloy,ASTM,7075-T6,505,Machining
+Wheel Rim,Aluminum Alloy,ASTM,6061-T6,275,Extrusion
+Seat Frame,Structural Steel,EN,S355,355,Sheet Metal
+Dashboard Panel,Plastic,ASTM,PP,35,Injection Molding
+Connecting Rod,Alloy Steel,ASTM,AISI 4140,655,Forging
+Piston,Aluminum Alloy,ASTM,6061-T6,275,Extrusion
+Crankshaft,Alloy Steel,ASTM,AISI 4340,745,Forging
+Gearbox Housing,Cast Iron,EN,FG260,260,Casting
+Camshaft,Alloy Steel,ASTM,AISI 4140,655,Forging
+Steering Column,Structural Steel,EN,S355,355,Forging
+Brake Pedal,Structural Steel,ASTM,A36,250,Sheet Metal
+Clutch Plate,Alloy Steel,ASTM,AISI D2,700,Machining
+Differential Housing,Cast Iron,EN,FG260,260,Casting
+Shock Absorber,Steel,ASTM,S355,355,Sheet Metal
+Fuel Injector,Alloy Steel,ASTM,AISI 4140,655,Forging
+Turbo Housing,Alloy Steel,ASTM,AISI 4340,745,Forging

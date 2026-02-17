@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../assets/images/fuso_logo.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="../assets/images/fuso_logo.png" type="image/x-icon" />
+    <meta name="description" content="Supplier Identification view" />
+    <title>Supplier Identification - FUSO</title>
+    <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/icofont.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/themify.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/flag-icon.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/feather-icon.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/slick.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/scrollbar.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/flatpickr/flatpickr.min.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
+    <link id="color" rel="stylesheet" href="../assets/css/color-1.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/responsive.css" />
+    <style>
+        .poctitle {
+            margin-bottom: 1rem;
+        }
+
+        #chart {
+            height: 360px;
+        }
+
+        .loading {
+            display: none;
+        }
+
+        /* Constrain FUSO logo sizes site-wide for headers/sidebars */
+        .header-logo-wrapper .logo-wrapper img {
+            max-height: 36px;
+            width: auto;
+        }
+
+        .page-header .header-logo-wrapper .logo-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-wrapper .logo-wrapper img {
+            max-height: 40px;
+            width: auto;
+        }
+
+        /* Header logo size fix */
+        .header-logo-wrapper .logo-wrapper img {
+            max-height: 28px;
+            width: auto;
+        }
+
+        .sidebar-logo-title {
+            display: inline-block !important;
+            font-size: 30px;
+            font-weight: 700;
+            color: #f3283f;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        /* Scrollable table container: keeps the header visible and table body scrollable */
+        .table-scroll-wrapper {
+            max-height: 360px;
+            overflow-y: auto;
+            padding-bottom: 1px;
+        }
+
+        .table-scrollable tbody tr:last-child td {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .table-scroll-wrapper table {
+            margin-bottom: 0;
+        }
+
+        .table-scrollable thead th {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 1;
+        }
+
+        footer.footer {
+            position: relative;
+            width: 100vw;
+            left: 50%;
+            margin-left: -50vw;
+            box-sizing: border-box;
+            z-index: 2;
+        }
+
+        footer.footer .container-fluid {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            max-width: 100% !important;
+        }
+
+        .page-body {
+            overflow: visible !important;
+        }
+
+        .app-logo {
+            max-height: 28px;
+            width: auto;
+        }
+
+        /* Office (right) logo */
+        .office-logo {
+            max-height: 32px;
+            width: auto;
+        }
+
+        /* Header alignment fix */
+        .page-header .header-wrapper {
+            min-height: 60px;
+        }
+
+        #dataTable thead th {
+            position: sticky;
+            top: 0;
+            background-color: #f3283f;
+            --bs-table-bg: #f3283f;
+            /* ✅ THIS IS THE KEY */
+            color: #ffffff;
+            z-index: 10;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .sidebar-logout {
+            border-top: 1px solid #e9ecef;
+            padding-top: 15px;
+            margin-top: 20px;
+        }
+
+        .sidebar-logout .sidebar-link {
+            justify-content: flex-start !important;
+            padding: 12px 20px !important;
+            border-radius: 8px !important;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-logout .sidebar-link:hover {
+            background-color: #cccccc !important;
+            color: #f3283f !important;
+        }
+
+        .sidebar-logout i {
+            color: #ffffff;
+            margin-right: 10px;
+        }
+
+        .custom-thead {
+            background-color: #f3283f;
+        }
+
+        .custom-thead th {
+            color: #ffffff !important;
+        }
+
+        .sidebar-submenu a.active {
+            color: #7e7e7e;
+            font-weight: 600;
+        }
+
+        .sidebar-list.active>.sidebar-title {
+            background-color: #7e7e7e;
+            color: #fff;
+        }
+
+        .sidebar-list.active svg {
+            stroke: #fff;
+            fill: #fff;
+        }
+
+        .page-header .header-wrapper {
+            min-height: 60px;
+        }
+
+        #dataTable thead th {
+            position: sticky;
+            top: 0;
+            background-color: #f3283f;
+            color: #fff;
+            z-index: 10;
+            font-weight: 600;
+        }
+
+        /* 🔥 Kill sidebar arrow completely for Home */
+        .sidebar-list.no-arrow>a {
+            background: none !important;
+            background-image: none !important;
+        }
+
+        /* Kill pseudo elements */
+        .sidebar-list.no-arrow>a::after,
+        .sidebar-list.no-arrow>a::before {
+            content: none !important;
+            display: none !important;
+        }
+
+        /* Kill icon arrows if present */
+        .sidebar-list.no-arrow i,
+        .sidebar-list.no-arrow .according-menu,
+        .sidebar-list.no-arrow .sidebar-icon,
+        .sidebar-list.no-arrow .fa-angle-right,
+        .sidebar-list.no-arrow .fa-chevron-right {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper compact-wrapper" id="pageWrapper">
+        <div class="page-header">
+            <div class="header-wrapper row m-0 align-items-center">
+
+                <!-- LEFT: FUSO logo -->
+                <div class="header-logo-wrapper col-auto p-0 d-flex align-items-center">
+                    <div class="logo-wrapper">
+                        <a href="index.html">
+                            <img class="img-fluid for-light" src="../assets/images/fuso_logo.png" alt="FUSO" />
+                        </a>
+                    </div>
+                    <div class="toggle-sidebar ms-2">
+                        <i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i>
+                    </div>
+                </div>
+
+                <!-- CENTER: Page title -->
+                <div class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0">
+                    <div class="d-flex align-items-center">
+                        <h3 class="f-w-600 mb-0">Material to Supplier Identification</h3>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Office logo -->
+                <div class="col-auto ms-auto d-flex align-items-center">
+                    <img src="../assets/images/intelizign_logo.png" alt="Office Logo" class="img-fluid"
+                        style="height: 42px; width: auto;">
+                </div>
+            </div>
+        </div>
+
+
+        <div class="page-body-wrapper horizontal-menu">
+            <!-- Page Sidebar Start-->
+            <div class="sidebar-wrapper" data-layout="stroke-svg">
+                <div>
+                    <div class="logo-wrapper d-flex align-items-center">
+                        <a href="index.html" class="d-flex align-items-center">
+                            <!-- <img class="img-fluid" src="../assets/images/fuso_logo.png" alt="FUSO"> -->
+                            <span class="sidebar-logo-title">FUSO</span>
+                        </a>
+
+                        <div class="back-btn ms-auto">
+                            <i class="fa fa-angle-left"></i>
+                        </div>
+
+                        <div class="toggle-sidebar ms-2">
+                            <i class="status_toggle middle sidebar-toggle" data-feather="grid"></i>
+                        </div>
+                    </div>
+                    <div class="logo-icon-wrapper"><a href="index.html"><img class="img-fluid"
+                                src="../assets/images/fuso_logo.png" alt="FUSO icon" /></a></div>
+                    <nav class="sidebar-main">
+                        <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
+                        <div id="sidebar-menu">
+                            <ul class="sidebar-links" id="simple-bar">
+                                <li class="back-btn">
+                                    <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
+                                            aria-hidden="true"></i></div>
+                                </li>
+                                <!-- <li class="pin-title sidebar-main-title">
+                                    <div>
+                                        <h6>Pinned</h6>
+                                    </div>
+                                </li> -->
+                                <!-- POCs menu -->
+                                <li class="sidebar-main-title">
+                                    <!-- <div>
+                                        <h6>POCs</h6>
+                                    </div> -->
+                                </li>
+                                <li class="sidebar-list no-arrow">
+                                    <a class="sidebar-link sidebar-title" href="../template/index.html">
+                                        <svg class="stroke-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#stroke-home"></use>
+                                        </svg>
+                                        <span>Home</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-list"><i class="fa fa-area-chart"></i><a
+                                        class="sidebar-link sidebar-title" href="#">
+                                        <svg class="stroke-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#stroke-charts"></use>
+                                        </svg>
+                                        <svg class="fill-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#fill-charts"></use>
+                                        </svg><span>Flat Steel Prediction</span></a>
+                                    <ul class="sidebar-submenu">
+                                        <li><a href="flat-steel-overview.html">Overview</a></li>
+                                        <li><a href="steel-price.html">Prediction</a></li>
+                                        <li><a href="test-data.html">Test data</a></li>
+                                        <li><a href="prediction-comparison.html">Prediction comparison</a></li>
+                                        <li><a href="historical.html">Historical data</a></li>
+                                    </ul>
+                                </li>
+                                <li class="sidebar-list">
+                                    <a class="sidebar-link sidebar-title" href="#">
+                                        <svg class="stroke-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#stroke-widget"></use>
+                                        </svg>
+                                        <svg class="fill-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#fill-widget"></use>
+                                        </svg>
+                                        <span>Digital Costing</span>
+                                    </a>
+                                    <ul class="sidebar-submenu">
+                                        <li><a href="digital-cost-overview.html">Overview</a></li>
+                                        <li>
+                                            <a href="../starter-kit/cost-calculation.html">Data Insights</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="sidebar-list">
+                                    <a class="sidebar-link sidebar-title" href="#">
+                                        <svg class="stroke-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#stroke-project"></use>
+                                        </svg>
+                                        <!-- <svg class="fill-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#fill-project"></use>
+                                        </svg> -->
+                                        <span>Digital Benchmarking</span>
+                                    </a>
+                                    <ul class="sidebar-submenu">
+                                        <li><a href="../starter-kit/digital_bench_overview.html">Overview</a></li>
+                                        <li><a href="../starter-kit/digital-benchmarking.html">Inspection</a></li>
+                                        <li><a href="../starter-kit/digital-benchmarking.html">Comparison</a></li>
+                                    </ul>
+                                </li>
+                                <li class="sidebar-list">
+                                    <a class="sidebar-link sidebar-title" href="supplier_overview.html">
+                                        <svg class="stroke-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#stroke-layout"></use>
+                                        </svg>
+                                        <svg class="fill-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#fill-layout"></use>
+                                        </svg>
+                                        <span>BCC Supplier Finder</span>
+                                    </a>
+                                    <ul class="sidebar-submenu">
+                                        <li>
+                                            <a href="supplier_overview.html">Overview</a>
+                                        </li>
+                                        <li>
+                                            <a href="../starter-kit/supplier_identification.html">BCC Supplier
+                                                Insights</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="sidebar-logout sidebar-list">
+                                    <a class="sidebar-link sidebar-title" href="#" id="sidebarLogoutBtn">
+                                        <i class="fa fa-sign-out" data-feather="log-out"></i>
+                                        <svg class="stroke-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#stroke-logout"></use>
+                                        </svg>
+                                        <svg class="fill-icon">
+                                            <use href="../assets/svg/icon-sprite.svg#fill-logout"></use>
+                                        </svg>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
+                    </nav>
+                </div>
+            </div>
+            <!-- Page Sidebar Ends-->
+
+            <div class="page-body">
+                <div class="container-fluid">
+
+                    <!-- PAGE TITLE / BREADCRUMBS -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="page-title">
+                                <div class="row align-items-center">
+
+                                    <!-- LEFT : Breadcrumb -->
+                                    <div class="col-sm-6 text-start">
+                                        <ol class="breadcrumb mb-0 justify-content-start align-items-center">
+                                            <li class="breadcrumb-item">
+                                                <a href="../template/index.html"
+                                                    class="d-flex align-items-center gap-1">
+                                                    <i class="fa fa-home" style="font-size:12px;"></i>
+                                                    Home
+                                                </a>
+                                            </li>
+                                            <li class="breadcrumb-item active">BCC Supplier Insights</li>
+                                        </ol>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Supplier Identification Form -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header pb-0">
+                                    <h5>Find suitable suppliers for your material requirements</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="supplierForm">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Part Name</label>
+                                                <select class="form-select" id="partName">
+                                                    <option value="">Select a part</option>
+                                                    <option value="Suspension Bracket" selected>Suspension Bracket
+                                                    </option>
+                                                    <option value="Chassis Cross Member">Chassis Cross Member</option>
+                                                    <option value="Engine Mount">Engine Mount</option>
+                                                    <option value="Axle Housing">Axle Housing</option>
+                                                    <option value="Control Arm">Control Arm</option>
+                                                    <option value="Leaf Spring Hanger">Leaf Spring Hanger</option>
+                                                    <option value="Steering Knuckle">Steering Knuckle</option>
+                                                    <option value="Subframe Assembly">Subframe Assembly</option>
+                                                    <option value="Transmission Bracket">Transmission Bracket</option>
+                                                    <option value="Differential Case">Differential Case</option>
+                                                    <option value="Shock Absorber Mount">Shock Absorber Mount</option>
+                                                    <option value="Gearbox Housing">Gearbox Housing</option>
+                                                    <option value="Crankshaft Support">Crankshaft Support</option>
+                                                    <option value="Wheel Hub">Wheel Hub</option>
+                                                    <option value="Brake Caliper Bracket">Brake Caliper Bracket</option>
+                                                    <option value="Motor Mount Plate">Motor Mount Plate</option>
+                                                    <option value="Torque Arm">Torque Arm</option>
+                                                    <option value="Frame Rail Section">Frame Rail Section</option>
+                                                    <option value="Bearing Housing">Bearing Housing</option>
+                                                    <option value="Clutch Fork">Clutch Fork</option>
+                                                    <option value="Mounting Flange">Mounting Flange</option>
+                                                    <option value="Drive Shaft Yoke">Drive Shaft Yoke</option>
+                                                    <option value="Support Gusset">Support Gusset</option>
+                                                    <option value="Cross Brace">Cross Brace</option>
+                                                    <option value="Structural Beam">Structural Beam</option>
+                                                    <option value="Pivot Bracket">Pivot Bracket</option>
+                                                    <option value="Reinforcement Plate">Reinforcement Plate</option>
+                                                    <option value="Coupling Housing">Coupling Housing</option>
+                                                    <option value="Load Bearing Plate">Load Bearing Plate</option>
+                                                    <option value="Suspension Link">Suspension Link</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Industry</label>
+                                                <input type="text" class="form-control" id="industry"
+                                                    value="Automotive">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Manufacturing Process</label>
+                                                <select class="form-select" id="process">
+                                                    <option value="">Select a process</option>
+                                                    <option value="Forging" selected>Forging</option>
+                                                    <option value="Casting">Casting</option>
+                                                    <option value="Machining">Machining</option>
+                                                    <option value="Sheet Metal">Sheet Metal</option>
+                                                    <option value="Welding">Welding</option>
+                                                    <option value="Heat Treatment">Heat Treatment</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Material Hint</label>
+                                                <input type="text" class="form-control" id="materialHint"
+                                                    value="Structural Steel">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Required Yield Strength (MPa)</label>
+                                                <input type="number" class="form-control" id="yieldStrength"
+                                                    value="345">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label">Region Preference</label>
+                                                <select class="form-select" id="region">
+                                                    <option value="">Select a region</option>
+                                                    <option value="APAC" selected>APAC (Asia Pacific)</option>
+                                                    <option value="EU">EU (Europe)</option>
+                                                    <option value="NA">NA (North America)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button type="submit" class="btn btn-primary">Find Suppliers</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Section -->
+                    <div id="result" class="row mt-4" style="display: none;">
+                        <!-- Results will be rendered here -->
+                    </div>
+                </div>
+            </div>
+            <!-- END PAGE BODY -->
+        </div>
+    </div>
+
+    <!-- Latest jQuery -->
+    <script src="../assets/js/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- Feather Icons -->
+    <script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+    <script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+    <!-- Scrollbar -->
+    <script src="../assets/js/scrollbar/simplebar.js"></script>
+    <script src="../assets/js/scrollbar/custom.js"></script>
+    <!-- Config -->
+    <script src="../assets/js/config.js"></script>
+    <!-- Sidebar -->
+    <script src="../assets/js/sidebar-menu.js"></script>
+    <script src="../assets/js/sidebar-pin.js"></script>
+    <!-- Custom script -->
+    <script src="../assets/js/script.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentPage = window.location.pathname.split("/").pop();
+
+            document.querySelectorAll(".sidebar-submenu a").forEach(link => {
+                const href = link.getAttribute("href");
+
+                if (href && href.includes(currentPage)) {
+                    // highlight submenu link
+                    link.classList.add("active");
+
+                    // open submenu
+                    const submenu = link.closest(".sidebar-submenu");
+                    submenu.style.display = "block";
+
+                    // highlight parent sidebar item
+                    const parentItem = link.closest(".sidebar-list");
+                    parentItem.classList.add("active");
+
+                    // highlight parent title link
+                    const parentTitle = parentItem.querySelector(".sidebar-title");
+                    parentTitle.classList.add("active");
+                }
+            });
+        });
+        $(document).ready(function () {
+            // Form submission
+            $('#supplierForm').on('submit', function (e) {
+                e.preventDefault();
+
+                const partName = $('#partName').val();
+                const industry = $('#industry').val();
+                const process = $('#process').val();
+                const materialHint = $('#materialHint').val();
+                const yieldStrength = parseFloat($('#yieldStrength').val());
+                const region = $('#region').val();
+
+                // Validation
+                if (!partName || !industry || !process || !materialHint || !yieldStrength || !region) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Missing Fields',
+                        text: 'Please fill in all fields'
+                    });
+                    return;
+                }
+
+                // Show loading state
+                const submitBtn = $(this).find('button[type="submit"]');
+                const originalText = submitBtn.text();
+                submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Loading...');
+
+                // API request
+                $.ajax({
+                    url: 'http://localhost:8090/recommendations',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        part_name: partName,
+                        industry: industry,
+                        manufacturing_process: process,
+                        material_hint: materialHint,
+                        functional_requirements: {
+                            yield_strength_mpa: yieldStrength
+                        },
+                        region_preference: [region]
+                    }),
+                    success: function (response) {
+                        renderResult(response);
+                        submitBtn.prop('disabled', false).text(originalText);
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Failed to fetch supplier recommendations. Please try again.'
+                        });
+                        submitBtn.prop('disabled', false).text(originalText);
+                    }
+                });
+            });
+
+            // Render results
+            function renderResult(response) {
+                const resultDiv = $('#result');
+                resultDiv.empty();
+
+                // Display recommended materials
+                if (response.materials && response.materials.length > 0) {
+                    const materialsHtml = `
+            <div class="col-12 mb-4">
+                <h5 class="mb-3"><strong>Recommended Materials</strong></h5>
+            </div>
+            ${response.materials.map(material => `
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h6 class="card-title">${material.material_family}</h6>
+                            <p class="card-text">
+                                <strong>Grade:</strong> ${material.grade}<br>
+                                <strong>Yield Strength:</strong> ${material.yield_strength_mpa} MPa
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        `;
+                    resultDiv.append(materialsHtml);
+                }
+
+                // Display supplier recommendations
+                if (response.supplier_recommendations && response.supplier_recommendations.length > 0) {
+                    // Check if any supplier exists
+                    const hasSuppliers = response.supplier_recommendations.some(rec => rec.suppliers && rec.suppliers.length > 0);
+
+                    if (!hasSuppliers) {
+                        const noDataHtml = `
+            <div class="col-12">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <i class="fa fa-exclamation-circle me-2"></i>
+                    <strong>No Records Found</strong><br>
+                    No suppliers available for this part number and manufacturing process. Please try with different criteria.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        `;
+                        resultDiv.append(noDataHtml);
+                    } else {
+                        const suppliersHtml = `
+            <div class="col-12 mb-4 mt-3">
+                <h5 class="mb-3"><strong>Supplier Recommendations</strong></h5>
+            </div>
+            ${response.supplier_recommendations.map(rec => `
+                <div class="col-12 mb-3">
+                    <div class="card">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0">Material: ${rec.material}</h6>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive table-scroll-wrapper">
+                                <table class="table table-bordered table-scrollable mt-3" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Supplier Name</th>
+                                            <th>Country</th>
+                                            <th>Region</th>
+                                            <th>Score</th>
+                                            <th>Cost (USD)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${rec.suppliers.map(supplier => `
+                                            <tr>
+                                                <td>${supplier.supplier_name}</td>
+                                                <td>${supplier.country}</td>
+                                                <td>${supplier.region}</td>
+                                                <td>
+                                                    <span class="badge bg-success">
+                                                        ${supplier.score}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    $ ${(supplier.cost_usd || 0).toLocaleString()}
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                            `).join('')}
+                        `;
+                        resultDiv.append(suppliersHtml);
+
+                        // Supplier score calculation note
+                        const scoreNoteHtml = `
+            <div class="col-12 mt-4">
+                <div class="card border-info">
+                    <div class="card-header" style="background-color:#f3283f;">
+                        <h6 class="mb-0 fw-bold text-white">
+                            <i class="fa fa-info-circle me-2"></i>
+                            Supplier Score – How It Is Calculated
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="mb-2">
+                            <li class="mb-2"><strong>Material Match (40%)</strong> – Supplier supports the required material family</li>
+                            <li class="mb-2"><strong>Yield Strength Proximity (20%)</strong> – Closer to required strength = better fit</li>
+                            <li class="mb-2"><strong>Region Preference (20%)</strong> – Preferred sourcing region (logistics advantage)</li>
+                            <li class="mb-2"><strong>Cost Indicator (20%)</strong> – Indicative cost competitiveness</li>
+                        </ul>
+                        <p class="mb-0 text-muted">
+                            <strong>Note:</strong> Score is indicative and used only for shortlisting suppliers before RFQ.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        `;
+                        resultDiv.append(scoreNoteHtml);
+                    }
+                }
+
+                resultDiv.show();
+
+                // Scroll to results
+                $('html, body').animate({
+                    scrollTop: resultDiv.offset().top - 100
+                }, 500);
+            }
+
+        });
+    </script>
+</body>
+
+</html>
